@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ArticoliWebService.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArticoliWebService.Services
 {
@@ -14,9 +15,11 @@ namespace ArticoliWebService.Services
         {
             this.alphaShopDbContext = alphaShopDbContext;
         }
-        public bool ArticoloExists(string Code)
+        public async Task<bool> ArticoloExists(string Code)
         {
-            throw new NotImplementedException();
+            //var articolo = await SelArticoloByCodice(Code);
+            //return articolo != null;
+            return await alphaShopDbContext.Articoli.AnyAsync(q => q.CodArt == Code);
         }
 
         public bool DelArticoli(Articoli articolo)
@@ -34,27 +37,33 @@ namespace ArticoliWebService.Services
             throw new NotImplementedException();
         }
 
-        public ICollection<Articoli> SelArticoliByDescrizione(string Descrizione)
+        public async Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione)
         {
-            return alphaShopDbContext.Articoli
-                        .Where(q => q.Descrizione.Contains(Descrizione))
+            return await alphaShopDbContext.Articoli
+                        .Where(q => q.Descrizione!.Contains(Descrizione))
                         .OrderBy(q => q.Descrizione)
-                        .ToList();
+                        .ToListAsync();
         }
 
-        public Articoli SelArticoloByCodice(string Code)
+        public async Task<Articoli> SelArticoloByCodice(string Code)
         {
-            return alphaShopDbContext.Articoli
-                        .Where(q => q.CodArt.Equals(Code))
-                        .FirstOrDefault();
+            return await alphaShopDbContext.Articoli
+                        .Where(q => q.CodArt!.Equals(Code))
+                        .Include(q => q.Barcode)
+                        .Include(q => q.famAssort)
+                        .Include(q => q.iva)
+                        .FirstOrDefaultAsync()!;
         }
 
-        public Articoli SelArticoloByEan(string Ean)
+        public async Task<Articoli> SelArticoloByEan(string Ean)
         {
-            return alphaShopDbContext.Barcode
-                        .Where(b => b.Barcode.Equals(Ean))
+            return await alphaShopDbContext.Barcode
+                        .Include(q => q.articolo!.Barcode)
+                        .Include(q => q.articolo!.famAssort)
+                        .Include(q => q.articolo!.iva)
+                        .Where(b => b.Barcode!.Equals(Ean))
                         .Select(a => a.articolo)
-                        .FirstOrDefault();
+                        .FirstOrDefaultAsync()!;
         }
 
         public bool UpdArticoli(Articoli articolo)
