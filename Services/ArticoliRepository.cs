@@ -41,6 +41,9 @@ namespace ArticoliWebService.Services
         {
             return await alphaShopDbContext.Articoli
                         .Where(q => q.Descrizione!.Contains(Descrizione))
+                        .Include(q => q.Barcode)
+                        .Include(q => q.famAssort)
+                        .Include(q => q.iva)
                         .OrderBy(q => q.Descrizione)
                         .ToListAsync();
         }

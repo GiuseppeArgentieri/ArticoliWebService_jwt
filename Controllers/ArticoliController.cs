@@ -38,15 +38,7 @@ namespace ArticoliWebService.Controllers
 
                 foreach(var articolo in articoli){
                     articoliDto.Add(
-                        new ArticoliDto{
-                            CodArt = articolo.CodArt!,
-                            Descrizione = articolo.Descrizione!,
-                            Um = articolo.Um!,
-                            CodStat = articolo.CodStat!,
-                            PzCart = articolo.PzCart,
-                            PesoNetto = articolo.PesoNetto,
-                            DataCreazione = articolo.DataCreazione
-                        }
+                        GetArticoliDto(articolo)
                     );
                 }
                 return Ok(articoliDto);
@@ -68,28 +60,7 @@ namespace ArticoliWebService.Controllers
 
             var articolo = await articoliRepository.SelArticoloByCodice(codArt);
             var barcodeDto = new List<BarcodeDto>();
-
-            foreach(var ean in articolo.Barcode){
-                barcodeDto.Add(
-                    new BarcodeDto{
-                        Barcode = ean.Barcode,
-                        Tipo = ean.IdTipoArt
-                    }
-                );
-            }
-
-            var articolodto = new ArticoliDto{
-                            CodArt = articolo.CodArt!,
-                            Descrizione = articolo.Descrizione!,
-                            Um = articolo.Um!,
-                            CodStat = articolo.CodStat!,
-                            PzCart = articolo.PzCart,
-                            PesoNetto = articolo.PesoNetto,
-                            DataCreazione = articolo.DataCreazione,
-                            Ean = barcodeDto,
-                            Iva = new IvaDto(articolo.iva.Descrizione, articolo.iva.Aliquota),
-                            Categoria = articolo.famAssort.Descrizione
-                        };
+            var articolodto = GetArticoliDto(articolo);
                         
             return Ok(articolodto);
         }
@@ -104,6 +75,19 @@ namespace ArticoliWebService.Controllers
                 }
             
             var articolo = await articoliRepository.SelArticoloByEan(barcode);
+
+            if(articolo == null){
+                return NotFound(string.Format("Non è stato possibile trvare alcun articolo con l'ean '{0}'", barcode));
+            }
+
+            var articolodto = GetArticoliDto(articolo);
+
+            return Ok(articolodto);
+
+            }
+
+        private ArticoliDto GetArticoliDto(Articoli articolo){
+            //Console.WriteLine(articolo.CodArt);
             var barcodeDto = new List<BarcodeDto>();
 
             foreach(var ean in articolo.Barcode){
@@ -115,27 +99,21 @@ namespace ArticoliWebService.Controllers
                 );
             }
 
-            if(articolo == null){
-                return NotFound(string.Format("Non è stato possibile trvare alcun articolo con l'ean '{0}'", barcode));
-            }
-
             var articolodto = new ArticoliDto{
                             CodArt = articolo.CodArt!,
                             Descrizione = articolo.Descrizione!,
-                            Um = articolo.Um!,
-                            CodStat = articolo.CodStat!,
+                            Um = (articolo.Um != null) ? articolo.Um.Trim() : "",
+                            CodStat = (articolo.CodStat != null) ? articolo.CodStat.Trim() : "" ,
                             PzCart = articolo.PzCart,
                             PesoNetto = articolo.PesoNetto,
                             DataCreazione = articolo.DataCreazione,
+                            IdStatoArt = articolo.IdStatoArt!,
                             Ean = barcodeDto,
-                            Iva = new IvaDto(articolo.iva.Descrizione, articolo.iva.Aliquota),
-                            Categoria = articolo.famAssort.Descrizione
+                            Iva = new IvaDto(articolo.iva!.Descrizione!, articolo.iva.Aliquota),
+                            Categoria = articolo.famAssort!.Descrizione!
                         };
 
-            return Ok(articolodto);
-
-            }
-
-
+            return articolodto;
+        }
         }
 }
