@@ -14,7 +14,7 @@ namespace ArticoliWebService.Controllers
     [Route("api/articoli")]
     public class ArticoliController : Controller
     {
-        private IArticoliRepository articoliRepository;
+        private readonly IArticoliRepository articoliRepository;
         public ArticoliController(IArticoliRepository articoliRepository)
         {
             this.articoliRepository = articoliRepository;
