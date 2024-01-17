@@ -33,7 +33,8 @@ namespace ArticoliWebService.Controllers
                 }
 
                 if(articoli.Count == 0){
-                    return NotFound(string.Format("Non è stato trovato alcun articolo con il filtro '{0}'", filter));
+                    return NotFound(
+                        new ErrMsg(string.Format("Non è stato trovato alcun articolo con il filtro '{0}'", filter), this.HttpContext.Response.StatusCode));
                 }
 
                 foreach(var articolo in articoli){
@@ -55,7 +56,9 @@ namespace ArticoliWebService.Controllers
                 }
 
             if(!await articoliRepository.ArticoloExists(codArt)){
-                return NotFound(string.Format("Non è stato trovato alcun articolo con il codice '{0}'", codArt));
+                //return NotFound(string.Format("Non è stato trovato alcun articolo con il codice '{0}'", codArt));
+                return NotFound(
+                        new ErrMsg(string.Format("Non è stato trovato alcun articolo con il codice '{0}'", codArt), this.HttpContext.Response.StatusCode));
             }
 
             var articolo = await articoliRepository.SelArticoloByCodice(codArt);
@@ -77,7 +80,9 @@ namespace ArticoliWebService.Controllers
             var articolo = await articoliRepository.SelArticoloByEan(barcode);
 
             if(articolo == null){
-                return NotFound(string.Format("Non è stato possibile trvare alcun articolo con l'ean '{0}'", barcode));
+                //return NotFound(string.Format("Non è stato possibile trvare alcun articolo con l'ean '{0}'", barcode));
+                return NotFound(
+                        new ErrMsg(string.Format("Non è stato possibile trvare alcun articolo con l'ean '{0}'", barcode), this.HttpContext.Response.StatusCode));
             }
 
             var articolodto = GetArticoliDto(articolo);
@@ -107,7 +112,8 @@ namespace ArticoliWebService.Controllers
                             PzCart = articolo.PzCart,
                             PesoNetto = articolo.PesoNetto,
                             DataCreazione = articolo.DataCreazione,
-                            IdStatoArt = articolo.IdStatoArt!,
+                            //IdStatoArt = articolo.IdStatoArt!,
+                            IdStatoArt = (articolo.IdStatoArt != null) ? articolo.IdStatoArt.Trim() : "" ,
                             Ean = barcodeDto,
                             Iva = new IvaDto(articolo.iva!.Descrizione!, articolo.iva.Aliquota),
                             Categoria = articolo.famAssort!.Descrizione!
