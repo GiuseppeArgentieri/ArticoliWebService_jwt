@@ -9,12 +9,13 @@ namespace ArticoliWebService.Services
     public interface IArticoliRepository
     {
         Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione);
+        Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione, string IdCat);
         Task<Articoli> SelArticoloByCodice(string Code);
+        Task<Articoli> SelArticoloByCodicePerEliminazione(string Code);
         Task<Articoli> SelArticoloByEan(string Ean);
-        bool InsArticoli(Articoli articolo);
-        bool UpdArticoli(Articoli articolo);
-        bool DelArticoli(Articoli articolo);
-        bool Salva();
+        Task<bool> InsArticoli(Articoli articolo);
+        Task<bool> UpdArticoli(Articoli articolo);
+        Task<bool> DelArticoli(Articoli articolo);
         Task<bool> ArticoloExists(string Code);
     }
 }

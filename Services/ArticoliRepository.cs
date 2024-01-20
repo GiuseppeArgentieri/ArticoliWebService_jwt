@@ -22,21 +22,6 @@ namespace ArticoliWebService.Services
             return await alphaShopDbContext.Articoli.AnyAsync(q => q.CodArt == Code);
         }
 
-        public bool DelArticoli(Articoli articolo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool InsArticoli(Articoli articolo)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Salva()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione)
         {
             return await alphaShopDbContext.Articoli
@@ -69,9 +54,54 @@ namespace ArticoliWebService.Services
                         .FirstOrDefaultAsync()!;
         }
 
-        public bool UpdArticoli(Articoli articolo)
+        public async Task<bool> InsArticoli(Articoli articolo)
         {
-            throw new NotImplementedException();
+            await alphaShopDbContext.AddAsync(articolo);
+            return await Salva();
+        }
+
+        public async Task<bool> UpdArticoli(Articoli articolo)
+        {
+            alphaShopDbContext.Update(articolo);
+            return await Salva();
+        }
+
+        public async Task<bool> DelArticoli(Articoli articolo)
+        {
+            alphaShopDbContext.Remove(articolo);
+            return await Salva();
+        }
+
+        private async Task<bool> Salva()
+        {
+            var saved = await alphaShopDbContext.SaveChangesAsync();
+            return saved >= 0 ? true : false;
+        }
+
+        public async Task<Articoli> SelArticoloByCodicePerEliminazione(string Code)
+        {
+            return await alphaShopDbContext.Articoli
+                    .Where(q => q.CodArt.Equals(Code))
+                    .FirstOrDefaultAsync();
+        }
+
+        public async Task<ICollection<Articoli>> SelArticoliByDescrizione(string Descrizione, string? IdCat)
+        {
+            bool isNumeric = int.TryParse(IdCat, out int n);
+
+            if(string.IsNullOrWhiteSpace(IdCat) || !isNumeric)
+            {
+                return await SelArticoliByDescrizione(Descrizione);
+            }
+
+            return await alphaShopDbContext.Articoli
+                        .Where(q => q.Descrizione!.Contains(Descrizione))
+                        .Where(q => q.IdFamAss == int.Parse(IdCat))
+                        .Include(q => q.Barcode)
+                        .Include(q => q.famAssort)
+                        .Include(q => q.iva)
+                        .OrderBy(q => q.Descrizione)
+                        .ToListAsync();
         }
     }
 }
