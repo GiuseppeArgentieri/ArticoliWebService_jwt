@@ -103,5 +103,19 @@ namespace ArticoliWebService.Services
                         .OrderBy(q => q.Descrizione)
                         .ToListAsync();
         }
+
+        public async Task<ICollection<Iva>> SelIva()
+        {
+            return await alphaShopDbContext.Iva
+                    .OrderBy(q => q.Aliquota)
+                    .ToListAsync();
+        }
+
+        public async Task<ICollection<FamAssort>> SelCat()
+        {
+            return await alphaShopDbContext.FamAssort
+                    .OrderBy(q => q.Id)
+                    .ToListAsync();
+        }
     }
 }

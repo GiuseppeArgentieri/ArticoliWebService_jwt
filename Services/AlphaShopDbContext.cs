@@ -19,6 +19,8 @@ namespace ArticoliWebService.Services
         public virtual DbSet<FamAssort> FamAssort {get; set;}
         public virtual DbSet<Ingredienti> Ingredienti {get; set;}
         public virtual DbSet<Iva> Iva {get; set;}
+        public virtual DbSet<Utenti> Utenti { get; set; }
+        public virtual DbSet<Profili> Profili { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -49,6 +51,18 @@ namespace ArticoliWebService.Services
                 .HasOne<FamAssort>(s => s.famAssort)
                 .WithMany(g => g.articoli)
                 .HasForeignKey(s => s.IdFamAss);
+
+            modelBuilder.Entity<Utenti>()
+                .HasKey(a => new {a.CodFidelity});
+
+            modelBuilder.Entity<Profili>()
+                .Property(a => a.Id)
+                .ValueGeneratedOnAdd();
+            
+            modelBuilder.Entity<Profili>()
+                .HasOne<Utenti>(s => s.Utente)
+                .WithMany(g => g.Profili)
+                .HasForeignKey(g => g.CodFidelity);
         }
 
     }

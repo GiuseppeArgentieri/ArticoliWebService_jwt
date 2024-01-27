@@ -15,7 +15,9 @@ namespace ArticoliWebService.Dtos
         public double? PesoNetto {get; set;}
         public DateTime? DataCreazione {get; set;}
         public ICollection<BarcodeDto> Ean {get; set;}
-        public IvaDto Iva {get; set;}
+        public int? IdIva { get; set; }
+        //public IvaDto Iva {get; set;}
+        public int? IdFamAss { get; set; }
         public string? Categoria {get; set;}
         public string IdStatoArt {get; set;}
     }
@@ -28,12 +30,21 @@ namespace ArticoliWebService.Dtos
     }
 
     public class IvaDto{
-        public IvaDto(string? Descrizione, Int16? Aliquota)
+        public IvaDto(int? IdIva, string? Descrizione, Int16? Aliquota)
         {
+            this.IdIva = IdIva;
             this.Descrizione = Descrizione;
             this.Aliquota = Aliquota;
         }
+        public int? IdIva {get; set;}
         public string? Descrizione {get; set;}
         public Int16? Aliquota {get; set;}
+    }
+
+    public class FamAssortDto
+    {
+        public int? Id {get; set;}
+        public string? Descrizione {get; set;}
+        
     }
 }
