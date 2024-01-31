@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService\\ArticoliWebService.csproj": {}
+    "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService_jwt\\ArticoliWebService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService\\ArticoliWebService.csproj": {
+    "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService_jwt\\ArticoliWebService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService\\ArticoliWebService.csproj",
+        "projectUniqueName": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService_jwt\\ArticoliWebService.csproj",
         "projectName": "ArticoliWebService",
-        "projectPath": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService\\ArticoliWebService.csproj",
+        "projectPath": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService_jwt\\ArticoliWebService.csproj",
         "packagesPath": "C:\\Users\\giuseppe.argentieri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService\\obj\\",
+        "outputPath": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService_jwt\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\giuseppe.argentieri\\AppData\\Roaming\\NuGet\\NuGet.Config",

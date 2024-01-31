@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hHmjtmU4g6DNNcd+ITUfUGMYZ4cMdhgxtvSq93/XthwloRVYL29Id5IPmgWFOOyuqGtlpkibas0dYh+LNyyF1g==",
+  "dgSpecHash": "0CwdqamDIH56fnixJIJc9KwpTW1ZaZV8Ri+/3moPpVQigHiIYcWKg/ajeMiiizI0j3R9zsPfWdgiwQIqfpfzQg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService\\ArticoliWebService.csproj",
+  "projectFilePath": "C:\\Users\\giuseppe.argentieri\\Documents\\angular\\backend\\ArticoliWebService_jwt\\ArticoliWebService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\giuseppe.argentieri\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\giuseppe.argentieri\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
